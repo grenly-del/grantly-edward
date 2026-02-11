@@ -1,0 +1,93 @@
+---
+import { ExternalLink, Github } from 'lucide-astro';
+
+const projects = [
+  {
+    title: "Project AstroOne",
+    description: "A comprehensive dashboard for managing astro projects with real-time analytics and data visualization.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    tags: ["Astro", "React", "TailwindRef"],
+    links: {
+      demo: "#",
+      repo: "#"
+    }
+  },
+  {
+    title: "E-Commerce Ultra",
+    description: "A high-performance e-commerce platform built with Next.js 14, featuring server components and optimistic UI updates.",
+    image: "https://images.unsplash.com/photo-1557821552-17105176677c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    tags: ["Next.js", "TypeScript", "Stripe"],
+    links: {
+      demo: "#",
+      repo: "#"
+    }
+  },
+  {
+    title: "TaskMaster AI",
+    description: "An AI-powered task management app that auto-prioritizes your todo list based on deadlines and complexity.",
+    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    tags: ["Vue.js", "Firebase", "OpenAI"],
+    links: {
+      demo: "#",
+      repo: "#"
+    }
+  }
+];
+---
+
+<section id="projects" class="py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl md:text-5xl font-bold font-outfit text-slate-900 dark:text-white mb-4">Proyek Unggulan</h2>
+        <p class="text-slate-600 dark:text-slate-400">Pilihan proyek yang pernah saya kerjakan, mulai dari aplikasi web hingga sistem desain.</p>
+      </div>
+      <a href="#" class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 font-medium flex items-center gap-2 group">
+        Lihat semua proyek 
+        <ExternalLink class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map((project) => (
+        <div class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:border-cyan-500/30 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-900/10 dark:hover:shadow-cyan-900/20">
+          
+          <!-- Image Wrapper -->
+          <div class="relative h-48 overflow-hidden">
+            <div class="absolute inset-0 bg-slate-900/0 dark:bg-slate-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+            <img 
+              src={project.image} 
+              alt={project.title} 
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+            />
+          </div>
+
+          <!-- Content -->
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 font-outfit group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
+              {project.description}
+            </p>
+            
+            <div class="flex flex-wrap gap-2 mb-6">
+              {project.tags.map((tag) => (
+                <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div class="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <a href={project.links.demo} class="text-sm font-medium text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 flex items-center gap-2 transition-colors">
+                <ExternalLink class="w-4 h-4" /> Live Demo
+              </a>
+              <a href={project.links.repo} class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 transition-colors">
+                <Github class="w-4 h-4" /> Source Code
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

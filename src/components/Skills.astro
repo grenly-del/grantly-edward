@@ -1,0 +1,38 @@
+---
+const skills = {
+  Languages: ["JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "Python", "SQL"],
+  Frontend: ["React", "Next.js", "Astro", "Tailwind CSS", "Vue.js", "Framer Motion"],
+  Backend: ["Node.js", "Express", "PostgreSQL", "Firebase", "Supabase"],
+  Tools: ["Git", "Docker", "VS Code", "Figma", "Postman", "Vercel"]
+};
+---
+
+<section id="skills" class="py-24 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden transition-colors duration-300">
+  <!-- Decorative background elements -->
+  <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="mb-16 text-center">
+      <h2 class="text-3xl md:text-5xl font-bold font-outfit text-slate-900 dark:text-white mb-6">Skill & Teknologi</h2>
+      <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+        Daftar lengkap teknologi yang saya gunakan untuk menghidupkan ide-ide. Saya selalu belajar dan memperluas perangkat saya.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {Object.entries(skills).map(([category, items]) => (
+        <div class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-cyan-500/20 transition-colors">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6 font-outfit border-l-4 border-cyan-500 pl-4">{category}</h3>
+          <div class="flex flex-wrap gap-3">
+            {items.map((skill) => (
+              <span class="px-4 py-2 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 rounded-lg text-sm font-medium border border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white hover:border-cyan-500/40 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-default">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,104 @@
+---
+const experiences = [
+  {
+    company: "Pribadi",
+    role: "Junior Web Developer",
+    date: "2018 - 2021",
+    description: "Saya bersekolah dan belajar tentang web development mulai dari dasar hingga tahap lanjut, di akhir saya membuat project To-Do-List sederhana",
+    tech: ["HTML", "CSS", "JavaScript"]
+  },
+  {
+    company: "Satu Satu Media",
+    role: "Designer, Operator",
+    date: "2021 - 2022",
+    description: "Saya bekerja dengan membuat desain digital printing dan mengoperasikan mesin digital printing juga melakukan training ke karyawan baru.",
+    tech: ["Photoshop", "Illustrator", "Figma"]
+  },
+  {
+    company: "Pribadi",
+    role: "Senior Developer",
+    date: "2022 - 2023",
+    description: "Membuat aplikasi FullStack pertama dengan menggunakan MERN Stack. Aplikasi ini adalah aplikasi galeri berbasis website",
+    tech: ["HTML/CSS", "JavaScript", "React", "Node.js", "MongoDB", "Express.js"]
+  },
+  {
+    company: "Pribadi",
+    role: "Senior Developer",
+    date: "2022 - 2023",
+    description: "Buat aplikasi chatting sederhana dengan menggunakan React dan Node.js sebagai frontend dan backendnya, setelah itu gunakan Socket.io untuk membuat chat real time.",
+    tech: ["HTML/CSS", "JavaScript", "React", "Node.js", "Socket.io"]
+  },
+  {
+    company: "PKBM Denny Smart",
+    role: "Senior Developer",
+    date: "2023 - 2024",
+    description: "Membuat sistem portal untuk PKBM Denny Smart berbasis website. Buat website company profile dan pendaftaran online siswa, juga sistem internal untuk instansi",
+    tech: ["HTML/CSS", "JavaScript", "React", "Node.js","MongoDB", "Express.js", "Hostinger", "Cloudinary"]
+  },
+  {
+    company: "Bisnis",
+    role: "Senior Developer, Project Manager",
+    date: "2024 - 2025",
+    description: "Buat aplikasi POS berbasis website dan desktop app. Aplikasi ini digunakan untuk mengelola penjualan, stok, dan pelanggan.",
+    tech: ["HTML/CSS", "JavaScript", "React", "Node.js","Socket.io" ,"MYSQL", "Express.js", "Electron.js", "Hostinger"]
+  },
+  {
+    company: "FPK Manado", 
+    role: "Project Manager",
+    date: "2025 - 2026",
+    description: "Buat aplikasi portal laporan untuk internal Forum Pembauran Kota Manado dan sistem pengelolahan anggota.",
+    tech: ["HTML/CSS", "JavaScript", "React", "Node.js",  "Mongodb", "Express.js", "Hostinger"]
+  },
+  {
+    company: "Klabat Dev", 
+    role: "Founder",
+    date: "2026 - Sekarang",
+    description: "Saya membangun software house yang siap membantu perusahan, organisasi dan instansi dalam digitalisasi.",
+    tech: ["HTML/CSS", "JavaScript", "React", "Node.js",  "Mongodb", "Express.js", "Hostinger"]
+  }
+];
+---
+
+<section id="experience" class="py-24 bg-slate-50 dark:bg-slate-900/30 transition-colors duration-300">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-5xl font-bold font-outfit text-slate-900 dark:text-white mb-4">Pengalaman Saya</h2>
+      <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Sekilas tentang perjalanan profesional saya dan perusahaan tempat saya bekerja.</p>
+    </div>
+
+    <div class="relative max-w-3xl mx-auto space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 dark:before:via-slate-700 before:to-transparent">
+      
+      {experiences.map((job, index) => (
+        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+          
+          <!-- Icon/Dot -->
+          <div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 group-hover:border-cyan-500/50 group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/20 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-colors">
+            <div class="w-3 h-3 rounded-full bg-cyan-500"></div>
+          </div>
+          
+          <!-- Content Card -->
+          <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/50 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-all shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2 gap-2">
+              <h3 class="font-bold text-lg text-slate-900 dark:text-white font-outfit">{job.role}</h3>
+              <span class="text-xs font-medium px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900/50">
+                {job.date}
+              </span>
+            </div>
+            <div class="text-cyan-600 dark:text-cyan-400 font-medium mb-3">{job.company}</div>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">
+              {job.description}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {job.tech.map((t) => (
+                <span class="px-2 py-1 text-xs rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+---
+import { Mail, Linkedin, Github, Globe } from 'lucide-astro';
+---
+
+<section id="contact" class="py-24 bg-white dark:bg-slate-950 relative border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+    <h2 class="text-3xl md:text-5xl font-bold font-outfit text-slate-900 dark:text-white mb-6">Let's Work Together</h2>
+    <p class="text-slate-600 dark:text-slate-400 text-lg mb-12 max-w-xl mx-auto">
+      I'm currently available for freelance work and full-time opportunities. If you have a project that needs some creative touch, I'd love to hear about it.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-6">
+        <a href="mailto:hello@example.com" class="group flex items-center justify-center gap-3 px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-semibold transition-all hover:scale-105 shadow-lg shadow-cyan-900/20">
+            <Mail class="w-5 h-5" />
+            <span>Say Hello</span>
+        </a>
+        <a href="#" class="group flex items-center justify-center gap-3 px-8 py-4 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-full font-semibold transition-all hover:scale-105">
+            <Linkedin class="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <span>Connect on LinkedIn</span>
+        </a>
+    </div>
+
+    <div class="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="text-slate-500 dark:text-slate-500 text-sm">
+            © {new Date().getFullYear()} Grantly Sorongan. All rights reserved.
+        </div>
+        
+        <div class="flex gap-6">
+            <a href="#" class="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">
+                <Github class="w-5 h-5" />
+                <span class="sr-only">GitHub</span>
+            </a>
+            <a href="#" class="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">
+                <Linkedin class="w-5 h-5" />
+                <span class="sr-only">LinkedIn</span>
+            </a>
+            <a href="#" class="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">
+                <Globe class="w-5 h-5" />
+                <span class="sr-only">Website</span>
+            </a>
+        </div>
+    </div>
+  </div>
+</section>

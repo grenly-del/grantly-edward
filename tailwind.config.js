@@ -9,11 +9,12 @@ module.exports = {
       pink: colors.fuchsia,
     },
     fontFamily: {
-        sans: ['Graphik', 'sans-serif'],
-        serif: ['Merriweather', 'serif'],
-        quick: ['Quicksand', 'sans-serif'],
-        roboto: ['Roboto', 'sans-serif'],
-        mono: ['Roboto Mono', 'monospace'],
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+      quick: ['Quicksand', 'sans-serif'],
+      roboto: ['Roboto', 'sans-serif'],
+      mono: ['Roboto Mono', 'monospace'],
+      playfair: ['Playfair Display', 'serif'],
     },
     extend: {
       spacing: {

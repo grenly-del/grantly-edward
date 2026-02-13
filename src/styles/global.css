@@ -2,8 +2,50 @@
 
 @theme {
   --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-calligraphy: 'Pinyon Script', cursive;
   --font-outfit: 'Outfit', sans-serif;
 }
 
 @variant dark (&:where(.dark, .dark *));
 
+/* Smooth scroll with navbar offset */
+html {
+  scroll-padding-top: 6rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Firefox scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 transparent;
+}
+
+.dark {
+  scrollbar-color: #334155 transparent;
+}

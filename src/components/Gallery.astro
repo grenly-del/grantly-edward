@@ -1,0 +1,288 @@
+---
+import GridBackground from "./GridBackground.astro";
+import { galleryItems } from "../data/gallery";
+
+// Group items by category for filtering
+const categories = [
+    "All",
+    ...new Set(galleryItems.map((item) => item.category)),
+];
+---
+
+<section id="gallery" class="py-32 bg-transparent relative overflow-hidden">
+    <GridBackground />
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="mb-20 text-center">
+            <div
+                class="gsap-gallery-line w-16 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mb-12 origin-left scale-x-0"
+            >
+            </div>
+            <h2
+                class="gsap-gallery-title text-4xl md:text-5xl font-bold font-serif text-slate-900 dark:text-white mb-6 opacity-0"
+            >
+                Career Moments
+            </h2>
+            <p
+                class="gsap-gallery-desc text-slate-600 dark:text-slate-400 font-sans max-w-2xl mx-auto opacity-0"
+            >
+                Dokumentasi perjalanan karir saya melalui berbagai momen
+                berharga - dari meeting dengan klien, presentasi, hingga
+                mentoring.
+            </p>
+        </div>
+
+        <!-- Category Filter -->
+        <div
+            class="gsap-gallery-filter flex flex-wrap justify-center gap-3 mb-12 opacity-0"
+        >
+            {
+                categories.map((category) => (
+                    <button
+                        data-category={category}
+                        class={`filter-btn px-4 py-2 text-sm font-medium tracking-wide transition-all duration-300 ${
+                            category === "All"
+                                ? "bg-amber-500 text-white border-amber-500"
+                                : "bg-transparent text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-amber-500/50"
+                        } border rounded-full`}
+                    >
+                        {category}
+                    </button>
+                ))
+            }
+        </div>
+
+        <!-- Gallery Grid -->
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            id="gallery-grid"
+        >
+            {
+                galleryItems.map((item) => (
+                    <a
+                        href={`/gallery/${item.slug}`}
+                        data-category={item.category}
+                        class="gallery-item gsap-gallery-item opacity-0 translate-y-8 group relative overflow-hidden rounded-lg aspect-[4/3] bg-slate-200 dark:bg-slate-800"
+                    >
+                        {/* Image */}
+                        <img
+                            src={item.image}
+                            alt={item.title}
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+
+                        {/* Overlay */}
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+
+                        {/* Content */}
+                        <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                            {/* Category Badge */}
+                            <span class="inline-block px-3 py-1 text-xs font-medium tracking-widest uppercase bg-amber-500/90 text-white mb-3 w-fit rounded-full">
+                                {item.category}
+                            </span>
+
+                            {/* Title */}
+                            <h3 class="text-xl font-bold font-serif text-white mb-2 group-hover:text-amber-400 transition-colors">
+                                {item.title}
+                            </h3>
+
+                            {/* Meta */}
+                            <div class="flex items-center gap-3 text-xs text-slate-300">
+                                <span class="flex items-center gap-1">
+                                    <svg
+                                        class="w-3 h-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                    {item.date}
+                                </span>
+                                {item.location && (
+                                    <>
+                                        <span>•</span>
+                                        <span class="flex items-center gap-1">
+                                            <svg
+                                                class="w-3 h-3"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                />
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                            </svg>
+                                            {item.location}
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+
+                            {/* Hover Indicator */}
+                            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <svg
+                                    class="w-6 h-6 text-amber-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    />
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Set initial states
+        gsap.set(".gsap-gallery-title", { y: 30 });
+        gsap.set(".gsap-gallery-desc", { y: 20 });
+
+        const galleryTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#gallery",
+                start: "top 75%",
+            },
+            defaults: { ease: "power3.out" },
+        });
+
+        galleryTl
+            .to(".gsap-gallery-line", {
+                scaleX: 1,
+                duration: 0.8,
+                ease: "power2.inOut",
+            })
+            .to(
+                ".gsap-gallery-title",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                },
+                "-=0.3",
+            )
+            .to(
+                ".gsap-gallery-desc",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                },
+                "-=0.5",
+            )
+            .to(
+                ".gsap-gallery-filter",
+                {
+                    opacity: 1,
+                    duration: 0.6,
+                },
+                "-=0.3",
+            )
+            .to(
+                ".gsap-gallery-item",
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    stagger: 0.1,
+                },
+                "-=0.3",
+            );
+
+        // Category filtering
+        const filterBtns = document.querySelectorAll(".filter-btn");
+        const galleryItems = document.querySelectorAll(".gallery-item");
+
+        filterBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const category = btn.getAttribute("data-category");
+
+                // Update active button
+                filterBtns.forEach((b) => {
+                    b.classList.remove(
+                        "bg-amber-500",
+                        "text-white",
+                        "border-amber-500",
+                    );
+                    b.classList.add(
+                        "bg-transparent",
+                        "text-slate-600",
+                        "dark:text-slate-400",
+                        "border-slate-200",
+                        "dark:border-slate-800",
+                    );
+                });
+                btn.classList.add(
+                    "bg-amber-500",
+                    "text-white",
+                    "border-amber-500",
+                );
+                btn.classList.remove(
+                    "bg-transparent",
+                    "text-slate-600",
+                    "dark:text-slate-400",
+                    "border-slate-200",
+                    "dark:border-slate-800",
+                );
+
+                // Filter items
+                galleryItems.forEach((item) => {
+                    const itemCategory = item.getAttribute("data-category");
+                    if (category === "All" || itemCategory === category) {
+                        gsap.to(item, {
+                            opacity: 1,
+                            scale: 1,
+                            duration: 0.3,
+                            display: "block",
+                        });
+                    } else {
+                        gsap.to(item, {
+                            opacity: 0,
+                            scale: 0.8,
+                            duration: 0.3,
+                            onComplete: () => {
+                                (item as HTMLElement).style.display = "none";
+                            },
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>

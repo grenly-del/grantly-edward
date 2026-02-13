@@ -1,18 +1,20 @@
 ---
-import '../styles/global.css';
-
+import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import GridBackground from "../components/GridBackground.astro";
+import PageTransition from "../components/PageTransition.astro";
 interface Props {
 	title: string;
-    description?: string;
-    image?: string;
-    type?: string;
+	description?: string;
+	image?: string;
+	type?: string;
 }
 
-const { 
-    title,
-    description = "Portfolio of Grantly Sorongan - Creative Developer based in Indonesia.",
-    image = "/og-image.png",
-    type = "website"
+const {
+	title,
+	description = "Portfolio of Grantly Sorongan - Creative Developer based in Indonesia.",
+	image = "/og-image.png",
+	type = "website",
 } = Astro.props;
 
 const siteUrl = Astro.site ? Astro.site.href : "https://example.com";
@@ -25,55 +27,116 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/icon.svg" />
 		<link rel="canonical" href={canonicalURL} />
 		<meta name="generator" content={Astro.generator} />
-        
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content={type} />
-        <meta property="og:url" content={Astro.url} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={new URL(image, siteUrl)} />
 
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={Astro.url} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content={new URL(image, siteUrl)} />
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={type} />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL(image, siteUrl)} />
 
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL(image, siteUrl)} />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Henny+Penny&family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
 		<title>{title}</title>
 
-        <script is:inline>
-            // Check for theme preference on load
-            const theme = (() => {
-              if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-                return localStorage.getItem('theme');
-              }
-              if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                return 'dark';
-              }
-              return 'light';
-            })();
-          
-            if (theme === 'light') {
-              document.documentElement.classList.remove('dark');
-            } else {
-              document.documentElement.classList.add('dark');
-            }
-        </script>
+		<script is:inline>
+			// Check for theme preference on load
+			const theme = (() => {
+				if (
+					typeof localStorage !== "undefined" &&
+					localStorage.getItem("theme")
+				) {
+					return localStorage.getItem("theme");
+				}
+				if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+					return "dark";
+				}
+				return "light";
+			})();
+
+			if (theme === "light") {
+				document.documentElement.classList.remove("dark");
+			} else {
+				document.documentElement.classList.add("dark");
+			}
+		</script>
 	</head>
-	<body class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-inter antialiased selection:bg-cyan-500/30 selection:text-cyan-800 dark:selection:text-cyan-200 transition-colors duration-300">
-		<div class="fixed inset-0 -z-10 h-full w-full bg-white dark:bg-slate-950 
-            bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] 
-            bg-[size:14px_24px] pointer-events-none transition-colors duration-300">
-			<div class="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-cyan-500 opacity-20 blur-[100px]"></div>
+	<body
+		class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-amber-400/30 selection:text-amber-900 dark:selection:bg-amber-400/30 dark:selection:text-amber-100"
+	>
+		<PageTransition />
+		<!-- Custom cursor glow (desktop only) -->
+		<div
+			id="cursor-glow"
+			class="fixed w-6 h-6 rounded-full pointer-events-none z-[9998] opacity-0 mix-blend-screen transition-opacity duration-300"
+			aria-hidden="true"
+		>
+			<div class="w-full h-full rounded-full bg-amber-400/40 blur-sm">
+			</div>
 		</div>
+		<ThemeToggle />
 		<slot />
+
+		<script>
+			// Custom cursor follower - desktop only
+			const cursor = document.getElementById("cursor-glow");
+			if (cursor && window.matchMedia("(hover: hover)").matches) {
+				let mouseX = 0,
+					mouseY = 0;
+				let cursorX = 0,
+					cursorY = 0;
+
+				document.addEventListener("mousemove", (e) => {
+					mouseX = e.clientX;
+					mouseY = e.clientY;
+					cursor.style.opacity = "1";
+				});
+
+				document.addEventListener("mouseleave", () => {
+					cursor.style.opacity = "0";
+				});
+
+				// Smooth follow with lerp
+				function animateCursor() {
+					if (!cursor) return;
+					cursorX += (mouseX - cursorX) * 0.15;
+					cursorY += (mouseY - cursorY) * 0.15;
+					cursor.style.left = `${cursorX - 12}px`;
+					cursor.style.top = `${cursorY - 12}px`;
+					requestAnimationFrame(animateCursor);
+				}
+				animateCursor();
+
+				// Enlarge on interactive elements
+				const interactiveEls = document.querySelectorAll(
+					'a, button, [role="button"]',
+				);
+				interactiveEls.forEach((el) => {
+					el.addEventListener("mouseenter", () => {
+						cursor.style.transform = "scale(2.5)";
+					});
+					el.addEventListener("mouseleave", () => {
+						cursor.style.transform = "scale(1)";
+					});
+				});
+			}
+		</script>
 	</body>
 </html>
 
@@ -90,11 +153,16 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 		);
 	}
 	html {
-		font-family: 'Inter', system-ui, sans-serif;
+		font-family: "Inter", system-ui, sans-serif;
 		background: #020617;
 	}
-	h1, h2, h3, h4, h5, h6 {
-		font-family: 'Outfit', sans-serif;
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: "Outfit", sans-serif;
 	}
 	code {
 		font-family:

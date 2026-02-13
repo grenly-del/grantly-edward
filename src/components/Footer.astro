@@ -1,44 +1,73 @@
 ---
-import { Mail, Linkedin, Github, Globe } from 'lucide-astro';
+import { ArrowUp } from "lucide-astro";
 ---
 
-<section id="contact" class="py-24 bg-white dark:bg-slate-950 relative border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-    <h2 class="text-3xl md:text-5xl font-bold font-outfit text-slate-900 dark:text-white mb-6">Let's Work Together</h2>
-    <p class="text-slate-600 dark:text-slate-400 text-lg mb-12 max-w-xl mx-auto">
-      I'm currently available for freelance work and full-time opportunities. If you have a project that needs some creative touch, I'd love to hear about it.
-    </p>
+<!-- Decorative separator -->
+<div
+  class="w-full h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent"
+>
+</div>
 
-    <div class="flex flex-wrap justify-center gap-6">
-        <a href="mailto:hello@example.com" class="group flex items-center justify-center gap-3 px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-semibold transition-all hover:scale-105 shadow-lg shadow-cyan-900/20">
-            <Mail class="w-5 h-5" />
-            <span>Say Hello</span>
-        </a>
-        <a href="#" class="group flex items-center justify-center gap-3 px-8 py-4 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-full font-semibold transition-all hover:scale-105">
-            <Linkedin class="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span>Connect on LinkedIn</span>
-        </a>
+<footer class="py-16 bg-white dark:bg-slate-950 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center">
+    <!-- Back to Top -->
+    <button
+      id="back-to-top"
+      class="group mb-12 flex flex-col items-center gap-2 text-slate-400 dark:text-slate-500 hover:text-amber-600 dark:hover:text-amber-400 transition-colors cursor-pointer"
+      aria-label="Scroll to top"
+    >
+      <div
+        class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-800 group-hover:border-amber-500 dark:group-hover:border-amber-500 flex items-center justify-center transition-all group-hover:-translate-y-1 duration-300"
+      >
+        <ArrowUp class="w-4 h-4" />
+      </div>
+      <span class="text-xs font-medium tracking-[0.3em] uppercase"
+        >Kembali ke Atas</span
+      >
+    </button>
+
+    <div class="mb-8">
+      <a
+        href="#"
+        class="text-3xl font-bold font-serif tracking-tighter text-slate-900 dark:text-white group"
+      >
+        GS<span
+          class="text-amber-500 inline-block group-hover:rotate-12 transition-transform duration-300"
+          >.</span
+        >
+      </a>
     </div>
 
-    <div class="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="text-slate-500 dark:text-slate-500 text-sm">
-            © {new Date().getFullYear()} Grantly Sorongan. All rights reserved.
-        </div>
-        
-        <div class="flex gap-6">
-            <a href="#" class="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">
-                <Github class="w-5 h-5" />
-                <span class="sr-only">GitHub</span>
-            </a>
-            <a href="#" class="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">
-                <Linkedin class="w-5 h-5" />
-                <span class="sr-only">LinkedIn</span>
-            </a>
-            <a href="#" class="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">
-                <Globe class="w-5 h-5" />
-                <span class="sr-only">Website</span>
-            </a>
-        </div>
+    <div class="flex gap-8 mb-8">
+      <a
+        href="#"
+        class="text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-all font-sans font-medium text-sm hover:scale-110 inline-block"
+        >LinkedIn</a
+      >
+      <a
+        href="#"
+        class="text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-all font-sans font-medium text-sm hover:scale-110 inline-block"
+        >GitHub</a
+      >
+      <a
+        href="#"
+        class="text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-all font-sans font-medium text-sm hover:scale-110 inline-block"
+        >Instagram</a
+      >
+    </div>
+
+    <div class="text-slate-500 dark:text-slate-500 text-sm font-sans">
+      © {new Date().getFullYear()} Grantly Sorongan. All rights reserved.
     </div>
   </div>
-</section>
+</footer>
+
+<script>
+  // Back to top
+  const backToTop = document.getElementById("back-to-top");
+  if (backToTop) {
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+</script>

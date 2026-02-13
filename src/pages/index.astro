@@ -1,22 +1,173 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Experience from '../components/Experience.astro';
-import Projects from '../components/Projects.astro';
-import Skills from '../components/Skills.astro';
-import Footer from '../components/Footer.astro';
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Experience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
+import Skills from "../components/Skills.astro";
+import Certifications from "../components/Certifications.astro";
+import Gallery from "../components/Gallery.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <Layout title="Grantly Sorongan | Creative Developer">
 	<Navbar />
 	<main>
-		<Hero />
-		<About />
-		<Experience />
+		<!-- Unified grid spanning Hero + About -->
+		<div class="relative">
+			<!-- 4-column grid lines -->
+			<div
+				class="absolute inset-0 pointer-events-none overflow-hidden select-none z-0"
+			>
+				<div
+					class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+				>
+					<div
+						class="unified-grid-line absolute left-4 sm:left-6 lg:left-8 top-0 w-px h-full bg-slate-200 dark:bg-slate-800"
+					>
+					</div>
+					<div
+						class="unified-grid-line absolute left-[33.33%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 hidden md:block"
+					>
+					</div>
+					<div
+						class="unified-grid-line absolute left-[66.66%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 hidden md:block"
+					>
+					</div>
+					<div
+						class="unified-grid-line absolute right-4 sm:right-6 lg:right-8 top-0 w-px h-full bg-slate-200 dark:bg-slate-800"
+					>
+					</div>
+				</div>
+			</div>
+
+			<Hero />
+			<About />
+
+			<!-- Horizontal closing line -->
+			<div
+				class="unified-grid-hline w-full h-px bg-slate-200 dark:bg-slate-800 relative z-10 origin-left scale-x-0"
+			>
+			</div>
+		</div>
+
+		<!-- Unified grid spanning Experience + Contact -->
+		<div class="relative">
+			<!-- Horizontal opening line -->
+			<div
+				class="unified-grid-hline-top w-full h-px bg-slate-200 dark:bg-slate-800 relative z-10 origin-left scale-x-0"
+			>
+			</div>
+
+			<!-- 4-column grid lines -->
+			<div
+				class="absolute inset-0 pointer-events-none overflow-hidden select-none z-0"
+			>
+				<div
+					class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+				>
+					<div
+						class="unified-grid-line-exp absolute left-4 sm:left-6 lg:left-8 top-0 w-px h-full bg-slate-200 dark:bg-slate-800"
+					>
+					</div>
+					<div
+						class="unified-grid-line-exp absolute left-[33.33%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 hidden md:block"
+					>
+					</div>
+					<div
+						class="unified-grid-line-exp absolute left-[66.66%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 hidden md:block"
+					>
+					</div>
+					<div
+						class="unified-grid-line-exp absolute right-4 sm:right-6 lg:right-8 top-0 w-px h-full bg-slate-200 dark:bg-slate-800"
+					>
+					</div>
+				</div>
+			</div>
+
+			<Experience />
+			<Contact />
+
+			<!-- Horizontal closing line -->
+			<div
+				class="unified-grid-hline-bottom w-full h-px bg-slate-200 dark:bg-slate-800 relative z-10 origin-left scale-x-0"
+			>
+			</div>
+		</div>
+
 		<Projects />
 		<Skills />
+		<Certifications />
+		<Gallery />
 	</main>
 	<Footer />
 </Layout>
+
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	document.addEventListener("DOMContentLoaded", () => {
+		// Animate vertical grid lines for Hero+About
+		gsap.from(".unified-grid-line", {
+			scaleY: 0,
+			transformOrigin: "top",
+			duration: 1.5,
+			stagger: 0.12,
+			ease: "power3.inOut",
+		});
+
+		// Animate horizontal closing line for Hero+About on scroll
+		ScrollTrigger.create({
+			trigger: ".unified-grid-hline",
+			start: "top 85%",
+			onEnter: () => {
+				gsap.to(".unified-grid-hline", {
+					scaleX: 1,
+					duration: 1,
+					ease: "power2.inOut",
+				});
+			},
+		});
+
+		// Animate Experience+Contact grid lines on scroll
+		ScrollTrigger.create({
+			trigger: ".unified-grid-hline-top",
+			start: "top 75%",
+			onEnter: () => {
+				// Animate top horizontal line
+				gsap.to(".unified-grid-hline-top", {
+					scaleX: 1,
+					duration: 1,
+					ease: "power2.inOut",
+				});
+
+				// Animate vertical grid lines
+				gsap.from(".unified-grid-line-exp", {
+					scaleY: 0,
+					transformOrigin: "top",
+					duration: 1.5,
+					stagger: 0.12,
+					ease: "power3.inOut",
+				});
+			},
+		});
+
+		// Animate bottom horizontal line
+		ScrollTrigger.create({
+			trigger: ".unified-grid-hline-bottom",
+			start: "top 85%",
+			onEnter: () => {
+				gsap.to(".unified-grid-hline-bottom", {
+					scaleX: 1,
+					duration: 1,
+					ease: "power2.inOut",
+				});
+			},
+		});
+	});
+</script>

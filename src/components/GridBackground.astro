@@ -1,0 +1,109 @@
+---
+interface Props {
+  variant?:
+    | "hero"
+    | "about"
+    | "experience"
+    | "projects"
+    | "skills"
+    | "contact"
+    | "detail";
+}
+
+const { variant = "hero" } = Astro.props;
+
+// Define line configurations based on variant
+const getLines = (variant: string) => {
+  switch (variant) {
+    case "hero":
+      return [true, false, false, true, true, true]; // [1, 4, 5, 6]
+    case "about":
+      return [false, true, true, false, false, true]; // [2, 3, 6]
+    case "experience":
+      return [true, false, true, false, true, false]; // [1, 3, 5]
+    case "projects":
+      return [false, true, false, true, false, true]; // [2, 4, 6]
+    case "skills":
+      return [true, true, false, false, true, true]; // [1, 2, 5, 6]
+    case "contact":
+      return [false, false, true, true, false, false]; // [3, 4]
+    case "detail":
+      return [true, false, true, false, false, true]; // [1, 3, 6]
+    default:
+      return [true, false, false, true, true, true];
+  }
+};
+
+const lines = getLines(variant);
+const uniqueId = `grid-${variant}-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div
+  class="absolute inset-0 h-full w-full pointer-events-none overflow-hidden select-none z-0"
+>
+  <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {
+      lines[0] && (
+        <div
+          class={`absolute left-4 sm:left-6 lg:left-8 top-0 w-px h-full bg-slate-200 dark:bg-slate-800 line-v-${uniqueId}`}
+        />
+      )
+    }
+    {
+      lines[1] && (
+        <div
+          class={`absolute left-[20%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 line-v-${uniqueId} hidden md:block`}
+        />
+      )
+    }
+    {
+      lines[2] && (
+        <div
+          class={`absolute left-[40%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 line-v-${uniqueId} hidden md:block`}
+        />
+      )
+    }
+    {
+      lines[3] && (
+        <div
+          class={`absolute left-[60%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 line-v-${uniqueId} hidden md:block`}
+        />
+      )
+    }
+    {
+      lines[4] && (
+        <div
+          class={`absolute left-[80%] top-0 w-px h-full bg-slate-200 dark:bg-slate-800 line-v-${uniqueId} hidden md:block`}
+        />
+      )
+    }
+    {
+      lines[5] && (
+        <div
+          class={`absolute right-4 sm:right-6 lg:right-8 top-0 w-px h-full bg-slate-200 dark:bg-slate-800 line-v-${uniqueId}`}
+        />
+      )
+    }
+  </div>
+</div>
+
+<script define:vars={{ uniqueId }}>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    gsap.from(`.line-v-${uniqueId}`, {
+      scrollTrigger: {
+        trigger: `.line-v-${uniqueId}`,
+        start: "top 90%",
+      },
+      scaleY: 0,
+      transformOrigin: "top",
+      duration: 1.5,
+      stagger: 0.1,
+      ease: "power3.inOut",
+    });
+  });
+</script>

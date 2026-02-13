@@ -1,0 +1,435 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import GridBackground from "../../components/GridBackground.astro";
+import {
+    ArrowLeft,
+    ArrowRight,
+    ExternalLink,
+    Github,
+    Calendar,
+    User,
+    Clock,
+} from "lucide-astro";
+import { projects } from "../../data/projects";
+
+export function getStaticPaths() {
+    return projects.map((project, index) => ({
+        params: { slug: project.slug },
+        props: {
+            project,
+            prevProject: index > 0 ? projects[index - 1] : null,
+            nextProject:
+                index < projects.length - 1 ? projects[index + 1] : null,
+        },
+    }));
+}
+
+const { project, prevProject, nextProject } = Astro.props;
+---
+
+<Layout
+    title={`${project.title} | Grantly Sorongan`}
+    description={project.description}
+    image={project.image}
+>
+    <Navbar />
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section class="relative min-h-[70vh] flex items-end overflow-hidden">
+            <!-- Background Image -->
+            <div class="absolute inset-0 z-0">
+                <img
+                    src={project.image}
+                    alt={project.title}
+                    class="gsap-detail-hero-img w-full h-full object-cover scale-110"
+                />
+                <!-- Gradient overlays -->
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/30"
+                >
+                </div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-slate-950/50 to-transparent"
+                >
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div
+                class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full pb-16 pt-32"
+            >
+                <!-- Back Button -->
+                <a
+                    href="/#projects"
+                    class="gsap-detail-back inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-amber-400 transition-colors mb-10 opacity-0 group"
+                >
+                    <ArrowLeft
+                        class="w-4 h-4 group-hover:-translate-x-1 transition-transform"
+                    />
+                    Kembali ke Proyek
+                </a>
+
+                <!-- Tags -->
+                <div
+                    class="gsap-detail-tags flex flex-wrap gap-3 mb-6 opacity-0"
+                >
+                    {
+                        project.tags.map((tag: string) => (
+                            <span class="px-3 py-1 text-xs font-medium tracking-widest uppercase border border-amber-500/30 text-amber-400 bg-amber-500/5">
+                                {tag}
+                            </span>
+                        ))
+                    }
+                </div>
+
+                <!-- Title -->
+                <h1
+                    class="gsap-detail-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-white mb-6 opacity-0 leading-tight"
+                >
+                    {project.title}
+                </h1>
+
+                <!-- Meta Info Row -->
+                <div
+                    class="gsap-detail-meta flex flex-wrap items-center gap-6 text-slate-400 text-sm opacity-0"
+                >
+                    <div class="flex items-center gap-2">
+                        <Calendar class="w-4 h-4 text-amber-500" />
+                        <span>{project.year}</span>
+                    </div>
+                    <div class="w-px h-4 bg-slate-700"></div>
+                    <div class="flex items-center gap-2">
+                        <User class="w-4 h-4 text-amber-500" />
+                        <span>{project.role}</span>
+                    </div>
+                    <div class="w-px h-4 bg-slate-700"></div>
+                    <div class="flex items-center gap-2">
+                        <Clock class="w-4 h-4 text-amber-500" />
+                        <span>{project.duration}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decorative bottom line -->
+            <div
+                class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent z-10"
+            >
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section class="relative py-20 md:py-28 bg-white dark:bg-slate-950">
+            <GridBackground variant="detail" />
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+                    <!-- Main Content (Left) -->
+                    <div class="lg:col-span-7">
+                        <!-- Overview -->
+                        <div class="gsap-detail-section mb-16 opacity-0">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div
+                                    class="w-10 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"
+                                >
+                                </div>
+                                <h2
+                                    class="text-xs font-medium tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400"
+                                >
+                                    Overview
+                                </h2>
+                            </div>
+                            <p
+                                class="text-lg leading-relaxed text-slate-700 dark:text-slate-300 font-sans"
+                            >
+                                {project.longDescription}
+                            </p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="gsap-detail-section mb-16 opacity-0">
+                            <div class="flex items-center gap-4 mb-8">
+                                <div
+                                    class="w-10 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"
+                                >
+                                </div>
+                                <h2
+                                    class="text-xs font-medium tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400"
+                                >
+                                    Fitur Utama
+                                </h2>
+                            </div>
+                            <div class="space-y-5">
+                                {
+                                    project.features.map(
+                                        (feature: string, i: number) => (
+                                            <div class="flex items-start gap-5 group">
+                                                <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center text-xs font-bold font-serif text-amber-600 dark:text-amber-400 border border-amber-500/30 bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors">
+                                                    {String(i + 1).padStart(
+                                                        2,
+                                                        "0",
+                                                    )}
+                                                </span>
+                                                <p class="text-slate-600 dark:text-slate-400 font-sans leading-relaxed pt-1">
+                                                    {feature}
+                                                </p>
+                                            </div>
+                                        ),
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar (Right) -->
+                    <div class="lg:col-span-5">
+                        <div class="lg:sticky lg:top-28 space-y-8">
+                            <!-- Tech Stack Card -->
+                            <div
+                                class="gsap-detail-section opacity-0 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8"
+                            >
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div
+                                        class="w-8 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"
+                                    >
+                                    </div>
+                                    <h3
+                                        class="text-xs font-medium tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400"
+                                    >
+                                        Tech Stack
+                                    </h3>
+                                </div>
+                                <div class="space-y-6">
+                                    {
+                                        project.techStack.map(
+                                            (tech: {
+                                                name: string;
+                                                role: string;
+                                            }) => (
+                                                <div class="group">
+                                                    <div class="flex items-center gap-3 mb-1">
+                                                        <div class="w-1.5 h-1.5 bg-amber-500 rotate-45 group-hover:scale-125 transition-transform" />
+                                                        <h4 class="font-medium text-slate-900 dark:text-white font-serif">
+                                                            {tech.name}
+                                                        </h4>
+                                                    </div>
+                                                    <p class="text-sm text-slate-500 dark:text-slate-500 ml-[18px] font-sans">
+                                                        {tech.role}
+                                                    </p>
+                                                </div>
+                                            ),
+                                        )
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Project Links Card -->
+                            <div
+                                class="gsap-detail-section opacity-0 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8"
+                            >
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div
+                                        class="w-8 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"
+                                    >
+                                    </div>
+                                    <h3
+                                        class="text-xs font-medium tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400"
+                                    >
+                                        Links
+                                    </h3>
+                                </div>
+                                <div class="space-y-4">
+                                    <a
+                                        href={project.links.demo}
+                                        class="flex items-center justify-center gap-3 w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-medium text-sm tracking-wide transition-all duration-300 group"
+                                    >
+                                        <ExternalLink
+                                            class="w-4 h-4 group-hover:rotate-12 transition-transform"
+                                        />
+                                        Live Demo
+                                    </a>
+                                    <a
+                                        href={project.links.repo}
+                                        class="flex items-center justify-center gap-3 w-full py-3.5 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-amber-500/50 hover:text-amber-600 dark:hover:text-amber-400 font-medium text-sm tracking-wide transition-all duration-300 group"
+                                    >
+                                        <Github
+                                            class="w-4 h-4 group-hover:rotate-12 transition-transform"
+                                        />
+                                        Source Code
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Section -->
+        <section
+            class="relative border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950"
+        >
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-slate-800"
+                >
+                    <!-- Previous Project -->
+                    <div class="py-12 md:pr-12">
+                        {
+                            prevProject ? (
+                                <a
+                                    href={`/projects/${prevProject.slug}`}
+                                    class="group block"
+                                >
+                                    <span class="text-xs font-medium tracking-[0.3em] uppercase text-slate-400 dark:text-slate-500 flex items-center gap-2 mb-3">
+                                        <ArrowLeft class="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
+                                        Proyek Sebelumnya
+                                    </span>
+                                    <h3 class="text-xl font-bold font-serif text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                        {prevProject.title}
+                                    </h3>
+                                </a>
+                            ) : (
+                                <a href="/#projects" class="group block">
+                                    <span class="text-xs font-medium tracking-[0.3em] uppercase text-slate-400 dark:text-slate-500 flex items-center gap-2 mb-3">
+                                        <ArrowLeft class="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
+                                        Kembali
+                                    </span>
+                                    <h3 class="text-xl font-bold font-serif text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                        Semua Proyek
+                                    </h3>
+                                </a>
+                            )
+                        }
+                    </div>
+
+                    <!-- Next Project -->
+                    <div class="py-12 md:pl-12 text-right">
+                        {
+                            nextProject ? (
+                                <a
+                                    href={`/projects/${nextProject.slug}`}
+                                    class="group block"
+                                >
+                                    <span class="text-xs font-medium tracking-[0.3em] uppercase text-slate-400 dark:text-slate-500 flex items-center justify-end gap-2 mb-3">
+                                        Proyek Selanjutnya
+                                        <ArrowRight class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                                    </span>
+                                    <h3 class="text-xl font-bold font-serif text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                        {nextProject.title}
+                                    </h3>
+                                </a>
+                            ) : (
+                                <a href="/#projects" class="group block">
+                                    <span class="text-xs font-medium tracking-[0.3em] uppercase text-slate-400 dark:text-slate-500 flex items-center justify-end gap-2 mb-3">
+                                        Kembali
+                                        <ArrowRight class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                                    </span>
+                                    <h3 class="text-xl font-bold font-serif text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                        Semua Proyek
+                                    </h3>
+                                </a>
+                            )
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Hero entrance animation
+        const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        // Hero image scale-in
+        heroTl
+            .to(".gsap-detail-hero-img", {
+                scale: 1,
+                duration: 1.8,
+                ease: "power2.out",
+            })
+            .to(
+                ".gsap-detail-back",
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.6,
+                },
+                "-=1.2",
+            )
+            .to(
+                ".gsap-detail-tags",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                },
+                "-=0.9",
+            )
+            .to(
+                ".gsap-detail-title",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                },
+                "-=0.6",
+            )
+            .to(
+                ".gsap-detail-meta",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                },
+                "-=0.5",
+            );
+
+        // Set initial states for hero
+        gsap.set(".gsap-detail-back", { x: -20 });
+        gsap.set(".gsap-detail-tags", { y: 15 });
+        gsap.set(".gsap-detail-title", { y: 30 });
+        gsap.set(".gsap-detail-meta", { y: 15 });
+
+        // Content sections staggered reveal on scroll
+        const sections = document.querySelectorAll(".gsap-detail-section");
+        sections.forEach((section, i) => {
+            gsap.set(section, { y: 30 });
+            gsap.to(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                delay: i * 0.1,
+                ease: "power3.out",
+            });
+        });
+    });
+</script>
+
+<style>
+    /* Subtle grain texture on hero */
+    section:first-of-type::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        pointer-events: none;
+    }
+</style>

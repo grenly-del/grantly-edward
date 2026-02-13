@@ -1,0 +1,165 @@
+---
+
+---
+
+<!-- Page Transition Overlay -->
+<div
+    id="page-transition"
+    class="fixed inset-0 z-[9999] pointer-events-none"
+    aria-hidden="true"
+>
+    <!-- Dark curtain panels -->
+    <div
+        id="transition-panel-1"
+        class="absolute inset-0 bg-slate-950 translate-y-full"
+    >
+    </div>
+    <div
+        id="transition-panel-2"
+        class="absolute inset-0 bg-slate-900 translate-y-full"
+    >
+    </div>
+
+    <!-- Gold accent line -->
+    <div
+        id="transition-line"
+        class="absolute left-0 right-0 top-1/2 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-0 -translate-y-1/2 z-10"
+    >
+    </div>
+</div>
+
+<script>
+    import { gsap } from "gsap";
+
+    const TRANSITION_DURATION = 0.3;
+
+    function initPageTransition() {
+        const panel1 = document.getElementById("transition-panel-1");
+        const panel2 = document.getElementById("transition-panel-2");
+        const line = document.getElementById("transition-line");
+        const overlay = document.getElementById("page-transition");
+
+        if (!panel1 || !panel2 || !line || !overlay) return;
+
+        // === ENTRANCE: animate overlay OUT on page load ===
+        const entranceTl = gsap.timeline({
+            defaults: { ease: "power3.inOut" },
+            onComplete: () => {
+                overlay.style.pointerEvents = "none";
+            },
+        });
+
+        // Check if we're arriving from a transition
+        if (sessionStorage.getItem("page-transitioning") === "true") {
+            sessionStorage.removeItem("page-transitioning");
+
+            gsap.set(panel1, { y: "0%" });
+            gsap.set(panel2, { y: "0%" });
+            gsap.set(line, { opacity: 1, scaleX: 1 });
+
+            entranceTl
+                .to(line, {
+                    scaleX: 0,
+                    opacity: 0,
+                    duration: 0.2,
+                    ease: "power2.in",
+                })
+                .to(
+                    panel2,
+                    {
+                        y: "-100%",
+                        duration: TRANSITION_DURATION,
+                    },
+                    "-=0.05",
+                )
+                .to(
+                    panel1,
+                    {
+                        y: "-100%",
+                        duration: TRANSITION_DURATION,
+                    },
+                    "-=0.2",
+                );
+        }
+
+        // === EXIT: intercept link clicks ===
+        document.addEventListener("click", (e) => {
+            const anchor = (e.target as HTMLElement).closest("a");
+            if (!anchor) return;
+
+            const href = anchor.getAttribute("href");
+            if (!href) return;
+
+            // Skip external links, anchors, and special links
+            if (
+                href.startsWith("http") ||
+                href.startsWith("mailto:") ||
+                href.startsWith("tel:") ||
+                href.startsWith("#") ||
+                anchor.hasAttribute("target")
+            ) {
+                return;
+            }
+
+            // Skip same-page hash links like /#projects
+            const currentPath = window.location.pathname;
+            if (href.startsWith("/#") && currentPath === "/") {
+                return;
+            }
+
+            e.preventDefault();
+            overlay.style.pointerEvents = "all";
+
+            sessionStorage.setItem("page-transitioning", "true");
+
+            const exitTl = gsap.timeline({
+                defaults: { ease: "power3.inOut" },
+                onComplete: () => {
+                    window.location.href = href;
+                },
+            });
+
+            gsap.set(panel1, { y: "100%" });
+            gsap.set(panel2, { y: "100%" });
+            gsap.set(line, { opacity: 0, scaleX: 0 });
+
+            exitTl
+                .to(panel1, {
+                    y: "0%",
+                    duration: TRANSITION_DURATION,
+                })
+                .to(
+                    panel2,
+                    {
+                        y: "0%",
+                        duration: TRANSITION_DURATION,
+                    },
+                    "-=0.2",
+                )
+                .to(
+                    line,
+                    {
+                        opacity: 1,
+                        scaleX: 1,
+                        duration: 0.2,
+                        ease: "power2.out",
+                    },
+                    "-=0.1",
+                );
+        });
+    }
+
+    // Run on initial load
+    document.addEventListener("DOMContentLoaded", initPageTransition);
+</script>
+
+<style>
+    #page-transition {
+        perspective: 1000px;
+    }
+    #transition-line {
+        box-shadow:
+            0 0 20px rgba(245, 158, 11, 0.4),
+            0 0 60px rgba(245, 158, 11, 0.1);
+    }
+</style>

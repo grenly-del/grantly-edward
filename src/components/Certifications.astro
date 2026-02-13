@@ -1,0 +1,154 @@
+---
+import GridBackground from "./GridBackground.astro";
+import { certifications } from "../data/certifications";
+---
+
+<section
+    id="certifications"
+    class="py-32 bg-transparent relative overflow-hidden"
+>
+    <GridBackground />
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="mb-20 text-center">
+            <div
+                class="gsap-cert-line w-16 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mb-12 origin-left scale-x-0"
+            >
+            </div>
+            <h2
+                class="gsap-cert-title text-4xl md:text-5xl font-bold font-serif text-slate-900 dark:text-white mb-6 opacity-0"
+            >
+                Sertifikasi
+            </h2>
+            <p
+                class="gsap-cert-desc text-slate-600 dark:text-slate-400 font-sans max-w-2xl mx-auto opacity-0"
+            >
+                Sertifikasi profesional yang telah saya raih untuk meningkatkan
+                keahlian dan kredibilitas.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {
+                certifications.map((cert) => (
+                    <a
+                        href={`/certifications/${cert.slug}`}
+                        class="gsap-cert-card opacity-0 translate-y-8 group block"
+                    >
+                        <div class="relative h-full bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 hover:border-amber-500/50 dark:hover:border-amber-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10 cursor-pointer">
+                            {/* Certificate icon/badge */}
+                            <div class="mb-4 flex items-center justify-center">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                    <svg
+                                        class="w-8 h-8 text-white"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            {/* Certificate details */}
+                            <div class="text-center">
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 font-serif group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                    {cert.name}
+                                </h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-1 font-sans">
+                                    {cert.issuer}
+                                </p>
+                                <p class="text-xs text-slate-500 dark:text-slate-500 mb-3 font-sans">
+                                    {cert.date}
+                                </p>
+                                <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
+                                    <p class="text-xs text-slate-400 dark:text-slate-600 font-mono">
+                                        ID: {cert.credential}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Hover indicator */}
+                            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <svg
+                                    class="w-5 h-5 text-amber-500"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Set initial states
+        gsap.set(".gsap-cert-title", { y: 30 });
+        gsap.set(".gsap-cert-desc", { y: 20 });
+
+        const certTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#certifications",
+                start: "top 75%",
+            },
+            defaults: { ease: "power3.out" },
+        });
+
+        certTl
+            .to(".gsap-cert-line", {
+                scaleX: 1,
+                duration: 0.8,
+                ease: "power2.inOut",
+            })
+            .to(
+                ".gsap-cert-title",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                },
+                "-=0.3",
+            )
+            .to(
+                ".gsap-cert-desc",
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                },
+                "-=0.5",
+            )
+            .to(
+                ".gsap-cert-card",
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    stagger: 0.15,
+                },
+                "-=0.3",
+            );
+    });
+</script>

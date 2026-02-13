@@ -1,38 +1,135 @@
 ---
+import GridBackground from "./GridBackground.astro";
+
 const skills = {
-  Languages: ["JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "Python", "SQL"],
-  Frontend: ["React", "Next.js", "Astro", "Tailwind CSS", "Vue.js", "Framer Motion"],
-  Backend: ["Node.js", "Express", "PostgreSQL", "Firebase", "Supabase"],
-  Tools: ["Git", "Docker", "VS Code", "Figma", "Postman", "Vercel"]
+  Languages: [
+    "JavaScript (ES6+)",
+    "TypeScript",
+    "HTML5",
+    "CSS3",
+    "Python",
+    "SQL",
+  ],
+  Frontend: [
+    "React",
+    "Next.js",
+    "Astro",
+    "Tailwind CSS",
+    "Vue.js",
+    "Framer Motion",
+  ],
+  Backend: [
+    "Node.js",
+    "Express",
+    "PostgreSQL",
+    "Firebase",
+    "Supabase",
+    "Golang",
+    "Flask",
+    "Laravel",
+    "Bun",
+    "Eleysia JS",
+  ],
+  Tools: ["Git", "Docker", "VS Code", "Figma", "Postman", "Vercel"],
+  Mobile: ["React Native"],
+  Desktop: ["Electron"],
 };
 ---
 
-<section id="skills" class="py-24 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden transition-colors duration-300">
-  <!-- Decorative background elements -->
-  <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none"></div>
-  <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+<section id="skills" class="py-32 bg-transparent relative overflow-hidden">
+  <GridBackground variant="skills" />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-    <div class="mb-16 text-center">
-      <h2 class="text-3xl md:text-5xl font-bold font-outfit text-slate-900 dark:text-white mb-6">Skill & Teknologi</h2>
-      <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-        Daftar lengkap teknologi yang saya gunakan untuk menghidupkan ide-ide. Saya selalu belajar dan memperluas perangkat saya.
+    <div class="mb-20 text-center">
+      <div
+        class="gsap-skills-line w-16 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mb-12 origin-left scale-x-0"
+      >
+      </div>
+      <h2
+        class="gsap-skills-title text-4xl md:text-5xl font-bold font-serif text-slate-900 dark:text-white mb-6 opacity-0"
+      >
+        Keahlian Teknikal
+      </h2>
+      <p
+        class="gsap-skills-desc text-slate-600 dark:text-slate-400 font-sans max-w-2xl mx-auto opacity-0"
+      >
+        Perangkat dan teknologi yang saya gunakan untuk mewujudkan ide digital.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {Object.entries(skills).map(([category, items]) => (
-        <div class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-cyan-500/20 transition-colors">
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6 font-outfit border-l-4 border-cyan-500 pl-4">{category}</h3>
-          <div class="flex flex-wrap gap-3">
-            {items.map((skill) => (
-              <span class="px-4 py-2 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 rounded-lg text-sm font-medium border border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white hover:border-cyan-500/40 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-default">
-                {skill}
-              </span>
-            ))}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      {
+        Object.entries(skills).map(([category, items]) => (
+          <div class="gsap-skill-card opacity-0 translate-y-8">
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-8 font-serif border-b border-amber-500/30 pb-4 inline-block">
+              {category}
+            </h3>
+            <div class="flex flex-wrap gap-y-4 gap-x-6">
+              {items.map((skill) => (
+                <span class="gsap-skill-item text-base font-medium text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-300 cursor-default font-sans px-3 py-1.5 rounded-sm hover:bg-amber-50 dark:hover:bg-amber-500/5 border border-transparent hover:border-amber-200 dark:hover:border-amber-500/20">
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Set initial states
+    gsap.set(".gsap-skills-title", { y: 30 });
+    gsap.set(".gsap-skills-desc", { y: 20 });
+
+    const skillsTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#skills",
+        start: "top 75%",
+      },
+      defaults: { ease: "power3.out" },
+    });
+
+    skillsTl
+      .to(".gsap-skills-line", {
+        scaleX: 1,
+        duration: 0.8,
+        ease: "power2.inOut",
+      })
+      .to(
+        ".gsap-skills-title",
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+        },
+        "-=0.3",
+      )
+      .to(
+        ".gsap-skills-desc",
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+        },
+        "-=0.5",
+      )
+      .to(
+        ".gsap-skill-card",
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.15,
+        },
+        "-=0.3",
+      );
+  });
+</script>

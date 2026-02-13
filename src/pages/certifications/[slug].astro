@@ -265,7 +265,8 @@ const { cert, prevCert, nextCert } = Astro.props;
 
                             <!-- Verification Card -->
                             {
-                                cert.verificationUrl && (
+                                (cert.certificateImage ||
+                                    cert.verificationUrl) && (
                                     <div class="gsap-detail-section opacity-0 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8">
                                         <div class="flex items-center gap-4 mb-8">
                                             <div class="w-8 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600" />
@@ -273,15 +274,46 @@ const { cert, prevCert, nextCert } = Astro.props;
                                                 Verifikasi
                                             </h3>
                                         </div>
-                                        <a
-                                            href={cert.verificationUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            class="flex items-center justify-center gap-3 w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-medium text-sm tracking-wide transition-all duration-300 group"
-                                        >
-                                            <ExternalLink class="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                                            Verifikasi Sertifikat
-                                        </a>
+                                        <div class="space-y-3">
+                                            {/* Lihat Sertifikat - opens popup */}
+                                            {cert.certificateImage && (
+                                                <button
+                                                    id="open-cert-modal"
+                                                    data-cert-image={
+                                                        cert.certificateImage
+                                                    }
+                                                    data-cert-name={cert.name}
+                                                    class="flex items-center justify-center gap-3 w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-medium text-sm tracking-wide transition-all duration-300 group cursor-pointer"
+                                                >
+                                                    <svg
+                                                        class="w-4 h-4 group-hover:scale-110 transition-transform"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                                        />
+                                                    </svg>
+                                                    Lihat Sertifikat
+                                                </button>
+                                            )}
+                                            {/* Verifikasi Online - external link */}
+                                            {cert.verificationUrl && (
+                                                <a
+                                                    href={cert.verificationUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="flex items-center justify-center gap-3 w-full py-3.5 border border-amber-500/50 hover:border-amber-500 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 font-medium text-sm tracking-wide transition-all duration-300 group"
+                                                >
+                                                    <ExternalLink class="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                                                    Verifikasi Online
+                                                </a>
+                                            )}
+                                        </div>
                                     </div>
                                 )
                             }
@@ -363,6 +395,69 @@ const { cert, prevCert, nextCert } = Astro.props;
         </section>
     </main>
 
+    <!-- Certificate Image Popup Modal -->
+    <div
+        id="cert-modal"
+        class="fixed inset-0 z-[9999] hidden items-center justify-center p-4"
+    >
+        <!-- Backdrop -->
+        <div
+            id="cert-modal-backdrop"
+            class="absolute inset-0 bg-slate-950/90 backdrop-blur-sm"
+        >
+        </div>
+
+        <!-- Modal Content -->
+        <div
+            id="cert-modal-content"
+            class="relative z-10 max-w-4xl w-full max-h-[90vh] flex flex-col"
+        >
+            <!-- Close Button -->
+            <button
+                id="close-cert-modal"
+                class="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors group cursor-pointer"
+            >
+                <div class="flex items-center gap-2 text-sm">
+                    <span
+                        class="opacity-0 group-hover:opacity-100 transition-opacity"
+                        >Tutup</span
+                    >
+                    <svg
+                        class="w-8 h-8"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+            </button>
+
+            <!-- Certificate Name -->
+            <h3
+                id="cert-modal-title"
+                class="text-white font-serif font-bold text-xl mb-4 text-center"
+            >
+            </h3>
+
+            <!-- Certificate Image -->
+            <div
+                class="overflow-auto rounded-lg border border-slate-700 bg-slate-900 shadow-2xl"
+            >
+                <img
+                    id="cert-modal-image"
+                    src=""
+                    alt=""
+                    class="w-full h-auto object-contain"
+                />
+            </div>
+        </div>
+    </div>
+
     <Footer />
 </Layout>
 
@@ -441,6 +536,87 @@ const { cert, prevCert, nextCert } = Astro.props;
                 delay: i * 0.1,
                 ease: "power3.out",
             });
+        });
+
+        // ===== Certificate Image Popup Modal =====
+        const modal = document.getElementById("cert-modal");
+        const modalBackdrop = document.getElementById("cert-modal-backdrop");
+        const modalContent = document.getElementById("cert-modal-content");
+        const modalImage = document.getElementById(
+            "cert-modal-image",
+        ) as HTMLImageElement;
+        const modalTitle = document.getElementById("cert-modal-title");
+        const openBtn = document.getElementById("open-cert-modal");
+        const closeBtn = document.getElementById("close-cert-modal");
+
+        function openModal() {
+            if (!modal || !openBtn) return;
+
+            const certImage = openBtn.getAttribute("data-cert-image") || "";
+            const certName = openBtn.getAttribute("data-cert-name") || "";
+
+            if (modalImage) {
+                modalImage.src = certImage;
+                modalImage.alt = certName;
+            }
+            if (modalTitle) modalTitle.textContent = certName;
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            document.body.style.overflow = "hidden";
+
+            // Animate in
+            gsap.fromTo(
+                modalBackdrop,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.3 },
+            );
+            gsap.fromTo(
+                modalContent,
+                { opacity: 0, scale: 0.9, y: 20 },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    duration: 0.4,
+                    ease: "back.out(1.2)",
+                },
+            );
+        }
+
+        function closeModal() {
+            if (!modal) return;
+
+            gsap.to(modalContent, {
+                opacity: 0,
+                scale: 0.9,
+                y: 20,
+                duration: 0.25,
+            });
+            gsap.to(modalBackdrop, {
+                opacity: 0,
+                duration: 0.3,
+                onComplete: () => {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                    document.body.style.overflow = "";
+                },
+            });
+        }
+
+        if (openBtn) openBtn.addEventListener("click", openModal);
+        if (closeBtn) closeBtn.addEventListener("click", closeModal);
+        if (modalBackdrop) modalBackdrop.addEventListener("click", closeModal);
+
+        // ESC key to close
+        document.addEventListener("keydown", (e) => {
+            if (
+                e.key === "Escape" &&
+                modal &&
+                !modal.classList.contains("hidden")
+            ) {
+                closeModal();
+            }
         });
     });
 </script>

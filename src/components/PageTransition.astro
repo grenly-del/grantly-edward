@@ -144,6 +144,43 @@
 
     // Run on initial load
     document.addEventListener("DOMContentLoaded", initPageTransition);
+
+    // === Handle browser back/forward (bfcache restore) ===
+    // When the user presses the browser back button, the page may be
+    // restored from bfcache with the curtain still visible. This clears it.
+    window.addEventListener("pageshow", (e) => {
+        if (e.persisted) {
+            // Page was restored from bfcache
+            const curtain = document.getElementById("transition-curtain");
+            const overlay = document.getElementById("page-transition");
+            const goldLine = document.getElementById("transition-gold-line");
+
+            if (curtain && overlay && goldLine) {
+                sessionStorage.removeItem("page-transitioning");
+                document.documentElement.classList.remove(
+                    "is-page-transitioning",
+                );
+                overlay.style.pointerEvents = "none";
+                gsap.set(curtain, { y: "100%" });
+                gsap.set(goldLine, { width: 0, opacity: 0 });
+            }
+        }
+    });
+
+    // Also handle popstate for non-bfcache back/forward navigation
+    window.addEventListener("popstate", () => {
+        const curtain = document.getElementById("transition-curtain");
+        const overlay = document.getElementById("page-transition");
+        const goldLine = document.getElementById("transition-gold-line");
+
+        if (curtain && overlay && goldLine) {
+            sessionStorage.removeItem("page-transitioning");
+            document.documentElement.classList.remove("is-page-transitioning");
+            overlay.style.pointerEvents = "none";
+            gsap.set(curtain, { y: "100%" });
+            gsap.set(goldLine, { width: 0, opacity: 0 });
+        }
+    });
 </script>
 
 <style is:global>

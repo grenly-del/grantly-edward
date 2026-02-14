@@ -43,7 +43,7 @@ export const certifications: Certification[] = [
         date: "14 Desember 2024",
         credential: "No. 015/INDONERIS/2024",
         image: "https://placehold.co/1920x1080/312e81/ffffff?text=Indoneris+IT+Competition+2024",
-        certificateImage: "/certifications/sertifikat_indoneris_itc_2024.webp",
+        certificateImage: "/certifications/sertifikat_lomba.webp",
         description:
             "Piagam penghargaan ini diberikan sebagai bentuk apresiasi atas partisipasi sebagai peserta dalam Lomba Indoneris IT Competition Tahun 2024 yang diselenggarakan oleh Universitas Amikom Purwokerto pada periode 15 September hingga 14 Desember 2024. Kegiatan ini bertujuan untuk mengembangkan kompetensi, daya saing, dan pemahaman peserta di bidang teknologi informasi.",
         skills: [
@@ -66,7 +66,7 @@ export const certifications: Certification[] = [
         date: "14 Desember 2024",
         credential: "No. 319/INDONERIS/2024",
         image: "https://placehold.co/1920x1080/1e40af/ffffff?text=Juara+I+UI%2FUX+Indoneris+2024",
-        certificateImage: "/certifications/sertifikat_indoneris_uiux_juara1_2024.webp",
+        certificateImage: "/certifications/juara_1_ui.webp",
         description:
             "Piagam penghargaan ini diberikan atas pencapaian sebagai Juara I pada kategori UI/UX dalam Lomba Indoneris IT Competition Tahun 2024. Prestasi ini diraih melalui kerja tim dalam merancang solusi antarmuka dan pengalaman pengguna yang inovatif, fungsional, dan berorientasi pada kebutuhan pengguna, serta dinilai oleh dewan juri dari kalangan akademisi dan praktisi.",
         skills: [

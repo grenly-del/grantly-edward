@@ -76,6 +76,13 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 				document.documentElement.classList.add("dark");
 			}
 		</script>
+
+		<script is:inline>
+			// Prevent flash during page transition — must run before first paint
+			if (sessionStorage.getItem("page-transitioning") === "true") {
+				document.documentElement.classList.add("is-page-transitioning");
+			}
+		</script>
 	</head>
 	<body
 		class="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-amber-400/30 selection:text-amber-900 dark:selection:bg-amber-400/30 dark:selection:text-amber-100"

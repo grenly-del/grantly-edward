@@ -27,7 +27,20 @@ export function getStaticPaths() {
     }));
 }
 
-const { cert, prevCert, nextCert } = Astro.props;
+// In SSR mode, look up the certification from the URL slug
+const { slug } = Astro.params;
+const certIndex = certifications.findIndex((c) => c.slug === slug);
+
+if (certIndex === -1) {
+    return Astro.redirect("/404");
+}
+
+const cert = certifications[certIndex];
+const prevCert = certIndex > 0 ? certifications[certIndex - 1] : null;
+const nextCert =
+    certIndex < certifications.length - 1
+        ? certifications[certIndex + 1]
+        : null;
 ---
 
 <Layout

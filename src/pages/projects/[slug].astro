@@ -26,7 +26,18 @@ export function getStaticPaths() {
     }));
 }
 
-const { project, prevProject, nextProject } = Astro.props;
+// In SSR mode, look up the project from the URL slug
+const { slug } = Astro.params;
+const projectIndex = projects.findIndex((p) => p.slug === slug);
+
+if (projectIndex === -1) {
+    return Astro.redirect("/404");
+}
+
+const project = projects[projectIndex];
+const prevProject = projectIndex > 0 ? projects[projectIndex - 1] : null;
+const nextProject =
+    projectIndex < projects.length - 1 ? projects[projectIndex + 1] : null;
 ---
 
 <Layout

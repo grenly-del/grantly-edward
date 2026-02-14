@@ -20,7 +20,18 @@ export function getStaticPaths() {
     }));
 }
 
-const { item, prevItem, nextItem } = Astro.props;
+// In SSR mode, look up the gallery item from the URL slug
+const { slug } = Astro.params;
+const itemIndex = galleryItems.findIndex((g) => g.slug === slug);
+
+if (itemIndex === -1) {
+    return Astro.redirect("/404");
+}
+
+const item = galleryItems[itemIndex];
+const prevItem = itemIndex > 0 ? galleryItems[itemIndex - 1] : null;
+const nextItem =
+    itemIndex < galleryItems.length - 1 ? galleryItems[itemIndex + 1] : null;
 ---
 
 <Layout
